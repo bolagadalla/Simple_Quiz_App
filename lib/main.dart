@@ -1,7 +1,7 @@
+import 'package:Simple_Quiz_App/result.dart';
 import 'package:flutter/material.dart';
 
-import './answer.dart';
-import './question.dart';
+import './quiz.dart';
 
 // void main()
 // {
@@ -20,49 +20,71 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // Variables
   int _questionIndex = 0;
+  int _scoreTotal = 0;
   // Functions
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _scoreTotal += score;
     setState(() {
       _questionIndex++;
     });
     print("Answer chosen!");
   }
 
+  void _restartQuiz() {
+    setState(() {
+      _scoreTotal = 0;
+      _questionIndex = 0;
+    });
+  }
+
   // Override built Method
   @override
   Widget build(BuildContext context) {
     // Questions and answers
-    var questions = [
+    var _questions = [
       {
         "questionText": "What\'s your favorite color?",
-        "answers": ["Black", "Red", "Green", "White"]
+        "answers": [
+          {"text": "Black", "score": 10},
+          {"text": "Red", "score": 5},
+          {"text": "Green", "score": 3},
+          {"text": "White", "score": 1},
+        ]
       },
       {
         "questionText": "What\'s your favorite animal?",
-        "answers": ["Cat", "Dog", "Eagle", "Snake"]
+        "answers": [
+          {"text": "Cat", "score": 1},
+          {"text": "Dog", "score": 3},
+          {"text": "Eagle", "score": 5},
+          {"text": "Snake", "score": 10},
+        ]
       },
       {
         "questionText": "Who\'s your favorite instructor?",
-        "answers": ["Max", "Bob", "Billy", "Lily"]
+        "answers": [
+          {"text": "Bob", "score": 10},
+          {"text": "Billy", "score": 5},
+          {"text": "Willy", "score": 3},
+          {"text": "Nilly", "score": 1},
+        ]
       },
     ];
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("My First App"),
+          title: Text("Simple Quiz App"),
+          centerTitle: true,
         ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]["questionText"]),
-            // The ... operator takes a list and adds them as a widget to the
-            // current list am in.
-            ...(questions[_questionIndex]["answers"] as List<String>)
-                .map((answer) {
-              return Answer(answer, _answerQuestion);
-            }).toList()
-          ],
-        ),
+        // If statements in widgets in the form of <(condition) ? true : false>
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(_scoreTotal, _restartQuiz),
       ),
     );
   }

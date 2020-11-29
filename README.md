@@ -2,9 +2,11 @@
 
 A quiz app developed in Dart with Flutter framework. This is from a Udemy Tutorial.
 
-## What I Learned
+## What I Learned:
 	- [x] How a Flutter App Starts and Works
 	- [x] Working with Widgets and Building Custom Widgets
 	- [x] Reacting to User Events
 	- [x] Stateless and Stateful Widgets
-	- [] Dart Fundamentals
+	- [x] Dart Fundamentals
+
+## How The App Looks
